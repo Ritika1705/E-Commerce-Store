@@ -8,14 +8,20 @@ import paymentRoutes from "./routes/payment.route.js";
 import analyticsRoutes from "./routes/analytics.route.js"
 import cookieParser from "cookie-parser";
 import { connectDB } from "./lib/db.js";
+import  cors from "cors";
 
 dotenv.config();
 
 const app = express();
-const PORT = 5001;
+const PORT = 5002;
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors({
+    origin: "http://localhost:5173", // Allow requests from this origin
+    methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
+    credentials: true, // Allow cookies and other credentials
+}));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
