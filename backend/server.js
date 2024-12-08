@@ -15,7 +15,7 @@ dotenv.config();
 const app = express();
 const PORT = 5002;
 
-app.use(express.json());
+app.use(express.json({ limit: "10mb" }));
 app.use(cookieParser());
 app.use(cors({
     origin: "http://localhost:5173", // Allow requests from this origin
