@@ -8,17 +8,22 @@ import Navbar from './components/Navbar.jsx';
 import './index.css'
 import { Toaster } from 'react-hot-toast';
 import { useUserStore } from './stores/useUserStore.js';
+import { useCartStore } from './stores/useCartStore.js';
 import { useEffect } from 'react';
 import LoadingSpinner from './components/LoadingSpinner.jsx';
+import CartPage from './pages/CartPage.jsx';
 
 function App() {
   const {user, checkAuth, checkingAuth} = useUserStore();
+  const {getCartItems} = useCartStore();
 
   useEffect(() => {
-    console.log(user);
     checkAuth();
-    console.log(checkingAuth);
   },[checkAuth]);
+
+  useEffect(() => {
+    getCartItems();
+  },getCartItems);
 
   if(checkingAuth){
     return <LoadingSpinner/>
@@ -40,6 +45,7 @@ function App() {
           <Route path="/login" element={user ? <HomePage/> : <LoginPage/>} />
           <Route path="/secret-dashboard" element={user?.role === "admin" ? <AdminPage/> : <Navigate to='/login' />} />
           <Route path="/category/:category" element={<CategoryPage/>} />
+          <Route path="/cart" element={user ? <CartPage/> : <Navigate to='/login' />} />
         </Routes>
       </div>
       <Toaster/>
