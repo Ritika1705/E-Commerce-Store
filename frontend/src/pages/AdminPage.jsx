@@ -10,7 +10,7 @@ import { useProductStore } from '../stores/useProductStore.js';
 
 const tabs = [
     {id: "create", name: "Create Product", icon: PlusCircle},
-    {id: "orders", name: "Orders", icon: ShoppingCart},
+    {id: "orders", name: "Products", icon: ShoppingCart},
     {id: "analytics", name: "Analytics", icon: BarChart}
 ];
 
@@ -27,7 +27,7 @@ const AdminPage = () => {
     <div className='min-h-screen overflow-hidden relative'>
         <div className='relative z-10 container mx-auto px-4 py-16'>
             <motion.h1
-                className='text-4xl font-bold mb-8 text-emerald-400 text-center'
+                className='text-4xl font-bold mb-8 text-cyan-400 text-center'
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y:0}}
                 transition={{duration: 0.8}}
@@ -43,7 +43,7 @@ const AdminPage = () => {
                             onClick={() => setActiveTab(tab.id)}
                             className={`flex items-center px-4 py-2 mx-2 rounded-md transition-colors duration-200 ${
                                 activeTab === tab.id
-                                ? "bg-emerald-600 text-white"
+                                ? "bg-cyan-600 text-white"
                                 : "bg-gray-700 text-gray-400"
                             }`}
                         >
