@@ -19,7 +19,7 @@ export const useUserStore = create((set, get) => ({
 		}
 
 		try {
-			const res = await axios.post("http://localhost:5002/api/auth/signup", { name, email, password });
+			const res = await axios.post("/auth/signup", { name, email, password });
 			set({ user: res.data, loading: false });
 		} catch (error) {
 			set({ loading: false });
@@ -31,7 +31,7 @@ export const useUserStore = create((set, get) => ({
 		set({loading: true});
 
 		try {
-			const res = await axios.post("http://localhost:5002/api/auth/login", { name, email, password });
+			const res = await axios.post("/auth/login", { name, email, password });
 			set({ user: res.data, loading: false });
 		} catch (error) {
 			set({ loading: false });
@@ -42,7 +42,7 @@ export const useUserStore = create((set, get) => ({
 	checkAuth: async() => {
 		set({checkingAuth: true});
 		try{
-			const res = await axios.get("http://localhost:5002/api/auth/profile");
+			const res = await axios.get("/auth/profile");
 			console.log(res.data);
 			set({user: res.data, checkingAuth: false});
 		}catch(error){
@@ -53,7 +53,7 @@ export const useUserStore = create((set, get) => ({
 
 	logout: async() => {
 		try{
-			await axios.post("http://localhost:5002/api/auth/logout");
+			await axios.post("/auth/logout");
 			set({user: null});
 		}
 		catch(error){

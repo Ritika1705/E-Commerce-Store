@@ -12,7 +12,7 @@ const PeopleAlsoBought = () => {
     useEffect(() => {
         const fetchRecommendations = async () => {
             try{
-                const res = await axiosInstance.get("http://localhost:5002/api/products/recommendations");
+                const res = await axiosInstance.get("/products/recommendations");
                 console.log(res.data);
                 setRecommendations(res.data.products);
             }catch(error){

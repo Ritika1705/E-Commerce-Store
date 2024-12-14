@@ -19,7 +19,7 @@ const AnalyticsTab = () => {
 	useEffect(() => {
 		const fetchAnalyticsData = async () => {
 			try {
-				const response = await axios.get("http://localhost:5002/api/analytics");
+				const response = await axios.get("/analytics");
         console.log(response);
 				setAnalyticsData(response.data.analyticsData);
         //console.log(analyticsData);

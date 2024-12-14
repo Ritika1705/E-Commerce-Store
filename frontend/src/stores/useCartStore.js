@@ -13,7 +13,7 @@ export const useCartStore = create((set,get) => ({
 
     getMyCoupon: async () => {
 		try {
-			const response = await axios.get("http://localhost:5002/api/coupons");
+			const response = await axios.get("/coupons");
 			set({ coupon: response.data });
 		} catch (error) {
 			console.error("Error fetching coupon:", error);
@@ -22,7 +22,7 @@ export const useCartStore = create((set,get) => ({
 
     applyCoupon: async (code) => {
         try{
-            const response = await axios.post("http://localhost:5002/api/coupons/validate", {code});
+            const response = await axios.post("/coupons/validate", {code});
             set({coupon: response.data, isCouponApplied: true});
             get().calculateTotals();
             toast.success("Coupon applied successfully");
@@ -37,10 +37,10 @@ export const useCartStore = create((set,get) => ({
         get().calculateTotals();
         toast.success("Coupon removed successfully");
     },
-    
+
     getCartItems: async () => {
 		try {
-			const res = await axios.get("http://localhost:5002/api/cart");
+			const res = await axios.get("/cart");
             console.log(res.data);
 			set({ cart: res.data.cartItems });
 			get().calculateTotals();
@@ -52,13 +52,13 @@ export const useCartStore = create((set,get) => ({
 	},
 
     clearCart: async () => {
-        await axios.delete("http://localhost:5002/api/cart");
+        await axios.delete("/cart");
         set({cart: [], coupon: null, total: 0, subtotal: 0});
     },
 
     addToCart: async(product) => {
         try{
-            await axios.post("http://localhost:5002/api/cart", {productId: product._id});
+            await axios.post("/cart", {productId: product._id});
             toast.success("Product added to cart successfully");
 
             set((prevState) => {
@@ -89,7 +89,7 @@ export const useCartStore = create((set,get) => ({
     },
 
     removeFromCart : async(productId) => {
-        await axios.delete(`http://localhost:5002/api/cart` , {data: {productId}});
+        await axios.delete(`/cart` , {data: {productId}});
         set((prevState) => ({cart: prevState.cart.filter((item) => item._id !== productId)}));
         get().calculateTotals();
     },
@@ -100,7 +100,7 @@ export const useCartStore = create((set,get) => ({
             return;
         }
 
-        await axios.put(`http://localhost:5002/api/cart/${productId}`, {quantity});
+        await axios.put(`/cart/${productId}`, {quantity});
         set((prevState) => ({
             cart: prevState.cart.map((item) => (item._id === productId ? {...item, quantity} : item))
         }));
