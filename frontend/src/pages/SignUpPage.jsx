@@ -10,12 +10,14 @@ const SignUpPage = () => {
 		email: "",
 		password: "",
 		confirmPassword: "",
+		role: "customer",
 	});
 
 	const { signup, loading } = useUserStore();
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
+		console.log(formData);
 		signup(formData);
 	};
 
@@ -123,7 +125,47 @@ const SignUpPage = () => {
 								/>
 							</div>
 						</div>
-
+						<div>
+							<label htmlFor="role" className="block text-sm font-medium text-gray-300 mb-2">
+								Role
+							</label>
+							<div className="flex space-x-4">
+								<div className="flex items-center px-4 py-2 border border-gray-200 rounded dark:border-gray-700">
+									<input
+										id="role-customer"
+										name="role"
+										type="radio"
+										value="customer"
+										checked={formData.role === "customer"}
+										onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+										className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+									/>
+									<label
+										htmlFor="role-customer"
+										className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+									>
+										Customer
+									</label>
+								</div>
+								<div className="flex items-center px-4 py-2 border border-gray-200 rounded dark:border-gray-700">
+									<input
+										id="role-admin"
+										name="role"
+										type="radio"
+										value="admin"
+										checked={formData.role === "admin"}
+										onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+										className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+									/>
+									<label
+										htmlFor="role-admin"
+										className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+									>
+										Admin
+									</label>
+								</div>
+							</div>
+						</div>
 						<button
 							type='submit'
 							className='w-full flex justify-center py-2 px-4 border border-transparent 

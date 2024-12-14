@@ -63,7 +63,7 @@ const Navbar = () => {
 
 						{user ? (
 							<button
-								className='bg-gray-700 hover:bg-gray-600 text-white py-2 px-4 
+								className='bg-cyan-700 hover:bg-cyan-600 text-white py-2 px-4 
 						rounded-md flex items-center transition duration-300 ease-in-out'
 								onClick={logout}
 							>
@@ -82,7 +82,7 @@ const Navbar = () => {
 								</Link>
 								<Link
 									to={"/login"}
-									className='bg-gray-700 hover:bg-cyan-600 text-white py-2 px-4 
+									className='bg-cyan-600 hover:bg-cyan-700 text-white py-2 px-4 
 									rounded-md flex items-center transition duration-300 ease-in-out'
 								>
 									<LogIn className='mr-2' size={18} />
