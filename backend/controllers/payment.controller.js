@@ -1,3 +1,7 @@
+import { stripe } from "../lib/stripe.js"
+import Coupon from "../models/coupon.model.js";
+import Order from "../models/order.model.js";
+
 export const createCheckoutSession = async(req, res) => {
     try{
         const {products, couponCode} = req.body;
@@ -13,13 +17,14 @@ export const createCheckoutSession = async(req, res) => {
 
             return{
                 price_data: {
-                    currency: "usd",
+                    currency: "inr",
                     product_data: {
                         name: product.name,
                         images: [product.image],
                     },
                     unit_amount: amount
-                }
+                },
+                quantity: product.quantity || 1,
             }
         });
 
@@ -57,6 +62,8 @@ export const createCheckoutSession = async(req, res) => {
             }
         });
 
+        console.log(session.success_url);
+
         if(totalAmount >= 20000){
             await createNewCoupon(req.user._id);
         }
@@ -76,6 +83,7 @@ async function createStripeCoupon(discountPercentage){
 }
 
 async function createNewCoupon(userId){
+    await Coupon.findOneAndDelete({userId: userId}); 
     const newCoupon = new Coupon({
         code: "GIFT" + Math.random().toString(36).substring(2, 8).toUpperCase(),
         discountPercentage: 10,

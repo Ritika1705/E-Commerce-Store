@@ -1,15 +1,13 @@
-import React from 'react'
-import { motion } from 'framer-motion'
-import { Trash, Star } from 'lucide-react'
-import { useProductStore } from '../stores/useProductStore.js'
+import { motion } from "framer-motion";
+import { Trash, Star } from "lucide-react";
+import { useProductStore } from "../stores/useProductStore";
 
 const ProductsList = () => {
+	const { deleteProduct, toggleFeaturedProduct, products } = useProductStore();
 
-    const {deleteProduct, toggleFeaturedProduct, products} = useProductStore();
+	console.log("products", products);
 
-    console.log(products);
-    
-    return (
+	return (
 		<motion.div
 			className='bg-gray-800 shadow-lg rounded-lg overflow-hidden max-w-4xl mx-auto'
 			initial={{ opacity: 0, y: 20 }}
@@ -99,7 +97,6 @@ const ProductsList = () => {
 				</tbody>
 			</table>
 		</motion.div>
-    )
-}
-
-export default ProductsList
+	);
+};
+export default ProductsList;

@@ -57,7 +57,8 @@ export const useProductStore = create((set) => ({
     deleteProduct: async (productId) => {
         set({loading: true});
         try{
-            await axios.delete(`http://localhost:5002/api/products/${productId}`);
+            const res = await axios.delete(`http://localhost:5002/api/products/${productId}`);
+            console.log(res);
             set((prevProducts) => ({
                 products: prevProducts.products.filter((product) => product._id !== productId),
                 loading: false
@@ -68,21 +69,36 @@ export const useProductStore = create((set) => ({
             toast.error(error.response.data.error || "Failed to delete product");
         }
     },
-    toggleFeaturedProduct: async (id) => {
+    
+
+    toggleFeaturedProduct: async (productId) => {
+		set({ loading: true });
+		try {
+			const response = await axios.patch(`http://localhost:5002/api/products/${productId}`);
+            console.log(response.data);
+            console.log(response.data.product.isFeatured);
+			// this will update the isFeatured prop of the product
+			set((prevProducts) => ({
+				products: prevProducts.products.map((product) =>
+					product._id === productId ? { ...product, isFeatured: response.data.product.isFeatured } : product
+				),
+				loading: false,
+			}));
+		} catch (error) {
+			set({ loading: false });
+			toast.error(error.response.data.error || "Failed to update product");
+		}
+	},
+
+    fetchFeaturedProducts: async () => {
         set({loading: true});
         try{
-            const response = await axios.patch(`http://localhost:5002/api/products/${id}`);
-            console.log(response.data);
-            set((prevProducts) => ({
-                products: prevProducts.products.map((product) => 
-                    product._id === id ? {...product, isFeatured: response.data.isFeatured} : product
-                ), loading: false
-                
-            }));
+            const response = await axios.get("http://localhost:5002/api/products/featured");
+            set({products: response.data.products, loading: false});
         }
         catch(error){
-            set({loading: false});
-            toast.error(error.response.data.error || "Failed to toggle featured status");
+            set({error: "Failed to fetch products", loading: false});
+            console.log("Error fetching featured products: ", error);
         }
-    },
+    }
 }));

@@ -11,6 +11,8 @@ import { useUserStore } from './stores/useUserStore.js';
 import { useCartStore } from './stores/useCartStore.js';
 import { useEffect } from 'react';
 import LoadingSpinner from './components/LoadingSpinner.jsx';
+import PurchaseSuccessPage from './pages/PurchaseSuccessPage.jsx';
+import PurchaseCancelPage from './pages/PurchaseCancelPage.jsx';
 import CartPage from './pages/CartPage.jsx';
 
 function App() {
@@ -22,8 +24,10 @@ function App() {
   },[checkAuth]);
 
   useEffect(() => {
+    if(!user) return;
+    
     getCartItems();
-  },getCartItems);
+  },getCartItems,user);
 
   if(checkingAuth){
     return <LoadingSpinner/>
@@ -46,6 +50,8 @@ function App() {
           <Route path="/secret-dashboard" element={user?.role === "admin" ? <AdminPage/> : <Navigate to='/login' />} />
           <Route path="/category/:category" element={<CategoryPage/>} />
           <Route path="/cart" element={user ? <CartPage/> : <Navigate to='/login' />} />
+          <Route path="/purchase-success" element={user ? <PurchaseSuccessPage/> : <Navigate to='/login' />} />
+          <Route path="/purchase-cancel" element={user ? <PurchaseCancelPage/> : <Navigate to='/login' />} />
         </Routes>
       </div>
       <Toaster/>
